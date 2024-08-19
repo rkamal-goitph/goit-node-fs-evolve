@@ -1,20 +1,26 @@
 {
-  "name": "code",
+  "name": "goit-node-fs-evolve",
   "version": "1.0.0",
-  "description": "this is an example of a node project",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkamal-goitph/goit-node-fs-evolve.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rkamal-goitph/goit-node-fs-evolve/issues"
+  },
+  "homepage": "https://github.com/rkamal-goitph/goit-node-fs-evolve#readme",
   "dependencies": {
-    "commander": "^12.1.0",
-    "nanoid": "^5.0.7",
+    "express": "^4.19.2",
     "nodemon": "^3.1.4"
   }
 }
