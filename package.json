@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rkamal-goitph/goit-node-fs-evolve#readme",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4"
   }
