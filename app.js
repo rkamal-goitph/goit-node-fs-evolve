@@ -1,9 +1,9 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
+import express from "express";
+import logger from "morgan";
+import cors from "cors";
 
 // import router from routes folder
-const contactsRouter = require("./routes/api/contacts");
+import { router as contactsRouter } from "./routes/api/contactsRouter.js";
 
 // initialize an express application
 const app = express();
@@ -26,17 +26,17 @@ app.use("/api/contacts", contactsRouter);
 
 // error handling using res.status()
 // not found
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
 // server error
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   res.status(500).json({ message: err.message });
 });
 
 // export the express application
-module.exports = app;
+export { app };
 
 // IMPORT MODULES
 // IMPORT ENVIRONMENT VARIABLES
