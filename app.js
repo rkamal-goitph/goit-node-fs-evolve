@@ -2,7 +2,6 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 
-// import router from routes folder
 import { router as contactsRouter } from "./routes/api/contactsRouter.js";
 
 // initialize an express application
