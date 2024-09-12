@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { app } from "./app.js";
-// import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 // initialize the environment variables

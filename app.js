@@ -3,6 +3,7 @@ import logger from "morgan";
 import cors from "cors";
 
 import { router as contactsRouter } from "./routes/api/contactsRouter.js";
+import { router as usersRouter } from "./routes/api/usersRouter.js";
 
 // initialize an express application
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // initialize the base path for the contacts router
 app.use("/api/contacts", contactsRouter);
+app.use("/api/users", usersRouter);
 
 // error handling using res.status()
 // not found
@@ -35,6 +37,7 @@ app.use((err, _req, res, _next) => {
 });
 
 // export the express application
+// module.exports = app;
 export { app };
 
 // IMPORT MODULES
