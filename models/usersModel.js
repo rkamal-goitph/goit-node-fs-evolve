@@ -13,6 +13,7 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
+      // setting an enum means all the values set for this field must only come from the enum
       enum: ["starter", "pro", "business"],
       default: "starter",
     },

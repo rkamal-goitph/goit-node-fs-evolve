@@ -10,6 +10,8 @@ import { authenticateToken } from "../../middlewares/auth.js";
 
 const router = express.Router();
 
+// FOR PUT, PATCH and POST requests always do frontend validation before saving to database
+
 /* POST: // http://localhost:3000/api/users/signup */
 router.post("/signup", signupUser);
 
