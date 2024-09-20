@@ -27,9 +27,12 @@ const getContactById = async (req, res, next) => {
 
   try {
     const { contactId } = req.params;
-    const result = Contact.findOne({ contactId });
-    // const result = await getContactById(contactId);
-    //  const result = await getContactById(req.params.contactId); --->>> This is if you dont want to destructure the request parameter
+
+    // this allows for a more flexible query allowing us to pass different fields
+    const result = Contact.findOne({ _id: contactId });
+
+    // this is strictly querying using the id
+    // const result = Contact.findById(contactId);
 
     // early return pattern means we want to skip our function body early if the required constants are falsy
 
