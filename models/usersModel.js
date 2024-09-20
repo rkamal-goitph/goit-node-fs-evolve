@@ -21,6 +21,9 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    avatarURL: {
+      type: String, // field to store the URL of the user's avatar
+    },
   },
   { versionKey: false }
 );

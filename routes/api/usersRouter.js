@@ -5,8 +5,10 @@ import {
   logoutUser,
   getCurrentUsers,
   updateUserSubscription,
+  updateAvatar,
 } from "../../controllers/usersController.js";
 import { authenticateToken } from "../../middlewares/auth.js";
+import { upload } from "../../middlewares/upload.js";
 
 const router = express.Router();
 
@@ -26,5 +28,14 @@ router.get("/current", authenticateToken, getCurrentUsers);
 
 /* PATCH: // http://localhost:3000/api/users/ */
 router.patch("/", authenticateToken, updateUserSubscription);
+
+// lets import the upload middleware here that we created in upload.js
+// lets call the single() function of multer to restrict the file upload to one file per model or schema field;
+router.patch(
+  "/avatars",
+  authenticateToken,
+  upload.single("avatar"),
+  updateAvatar
+);
 
 export { router };

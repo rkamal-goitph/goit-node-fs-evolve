@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import gravatar from "gravatar";
 import "dotenv/config";
 import { User } from "../models/usersModel.js";
 import {
   signupValidation,
   subscriptionValidation,
 } from "../validation/validation.js";
+import { Jimp } from "jimp";
 
 const { SECRET_KEY } = process.env;
 
@@ -29,7 +31,16 @@ const signupUser = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({ email, password: hashPassword });
+    // the url() function from the gravatar npm package sets the global avatar for the email associated with the account
+    // accepts two parameters: first is the email, second is the object containing the http protocol
+    // this avatar is temporary and placeholder only for when the user initially signs up
+    const avatarURL = gravatar.url(email, { protocol: "http" });
+
+    const newUser = await User.create({
+      email,
+      password: hashPassword,
+      avatarURL,
+    });
 
     // res.status().json() is our way of resolving the HTTP request promise
     // without this, our HTTP request would go on forever
@@ -37,6 +48,7 @@ const signupUser = async (req, res) => {
       user: {
         email: newUser.email,
         subscription: newUser.subscription,
+        avatarURL: newUser.avatarURL,
       },
     });
   } catch (err) {
@@ -138,10 +150,56 @@ const updateUserSubscription = async (req, res) => {
   }
 };
 
+// 1. verify if the token is existing in the request
+// 2. if the token is valid, access the uploaded avatar using the upload.js middleware
+const updateAvatar = async (req, res) => {
+  try {
+    // access the authentication token through the req.user
+    const { _id } = req.user;
+
+    // uploaded avatar is access through the req.file
+
+    // request body is the request that supports this content type: application/json, text/html
+    // request file is the request that supports this content type: Content-Type: image/jpeg, multipart/form-data
+    const { path: oldPath, originalname } = req.file;
+
+    // we are reading the image from the temporary path
+    // we are resizing the image to 250px width and 250px height
+    // we are saving the updated resolution to the old temporary path
+    await Jimp.read(oldPath).then((image) =>
+      image.resize(250, 250).write(oldPath)
+    );
+
+    // Move the user's avatar from the tmp folder to the public/avatars folder and give it a unique name for the specific user
+    // the unique file name that we will generate is a concatenated version of the id of the user document and the extension of the original image file.
+
+    // 66e576387fdc812acc32be53.webp
+    const extension = path.extname(originalname);
+    const filename = `${_id}${extension}`;
+
+    // construct a new avatar URL
+    // this may not work directly if you are using a windows OS
+    const avatarURL = path.join("/avatars", filename);
+
+    // you may try this for a windows ecosystem
+    // let avatarURL = path.join("/avatars", filename);
+    // avatarURL = avatarURL.replace(/\\/g, "/");
+
+    // save the newly generated avatar in the database and the public folder
+    await User.findByIdAndUpdate(_id, {
+      avatarURL,
+    });
+    res.status(200).json({ avatarURL });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export {
   signupUser,
   loginUser,
   logoutUser,
   getCurrentUsers,
   updateUserSubscription,
+  updateAvatar,
 };
