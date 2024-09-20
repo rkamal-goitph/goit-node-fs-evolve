@@ -27,7 +27,7 @@ const getContactById = async (req, res, next) => {
 
   try {
     const { contactId } = req.params;
-    const result = Contact.findOne(contactId);
+    const result = Contact.findOne({ contactId });
     // const result = await getContactById(contactId);
     //  const result = await getContactById(req.params.contactId); --->>> This is if you dont want to destructure the request parameter
 
