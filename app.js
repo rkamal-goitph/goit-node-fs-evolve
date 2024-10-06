@@ -37,7 +37,7 @@ app.use((_req, res) => {
 });
 
 // server error
-app.use((err, _req, res, _next) => {
+app.use((err, _req, res) => {
   res.status(500).json({ message: err.message });
 });
 

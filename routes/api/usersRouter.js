@@ -6,6 +6,8 @@ import {
   getCurrentUsers,
   updateUserSubscription,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } from "../../controllers/usersController.js";
 import { authenticateToken } from "../../middlewares/auth.js";
 import { upload } from "../../middlewares/upload.js";
@@ -37,5 +39,9 @@ router.patch(
   upload.single("avatar"),
   updateAvatar
 );
+
+router.get("/verify/:verificationToken", verifyEmail);
+
+router.post("/verify", authenticateToken, resendVerifyEmail);
 
 export { router };
