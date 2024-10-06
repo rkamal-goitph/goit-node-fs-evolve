@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 // initialize the environment variables
 dotenv.config();
 // access the environment variables
-const { DB_HOST } = process.env; // or process.env.DB_HOST if you dont want to destructure
+const { DB_HOST, PORT } = process.env; // or process.env.DB_HOST if you dont want to destructure
 
 mongoose
   .connect(DB_HOST, {
@@ -15,7 +15,7 @@ mongoose
     // useUnifiedTopology: true, //
   })
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(PORT, () => {
       console.log("Server is running. Use our API on port: 3000");
     });
 

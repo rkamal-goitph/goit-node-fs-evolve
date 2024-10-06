@@ -6,6 +6,7 @@ import { User } from "../models/usersModel.js";
 import {
   signupValidation,
   subscriptionValidation,
+  emailValidation,
 } from "../validation/validation.js";
 import { Jimp } from "jimp";
 import path from "path";
@@ -133,7 +134,7 @@ const logoutUser = async (req, res) => {
 const getCurrentUsers = async (req, res) => {
   try {
     const { email, subscription } = req.user;
-    res.json({
+    res.status(200).json({
       email,
       subscription,
     });
@@ -159,7 +160,7 @@ const updateUserSubscription = async (req, res) => {
       new: true,
     });
 
-    res.json({
+    res.status(200).json({
       email: updatedUser.email,
       subscription: updatedUser.subscription,
     });
@@ -292,7 +293,7 @@ const resendVerifyEmail = async (req, res) => {
     });
 
     // Resending a email success response
-    res.json({ message: "Verification email sent" });
+    res.status(200).json({ message: "Verification email sent" });
   } catch (error) {
     // Internal server error handling
     res.status(500).json({ message: "Internal server error" });
